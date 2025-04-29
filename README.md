@@ -27,4 +27,13 @@ Le but est de fournir une architecture moderne, robuste et évolutive pour un si
 - MySQL
 - Maven
 
+---
+
+## Equipe projet
+
+- Tolga YILDIZ
+- Ozan GUNES
+- Valentin EVRARD
+- Cyprien MUYARD
+
 
