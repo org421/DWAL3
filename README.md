@@ -36,4 +36,10 @@ Le but est de fournir une architecture moderne, robuste et évolutive pour un si
 - Valentin EVRARD
 - Cyprien MUYARD
 
+---
+
+## Note obtenue
+
+Projet noté **15/20** à l'université Jean Monnet (année 2024-2025)
+
 
