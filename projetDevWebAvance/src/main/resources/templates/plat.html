@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Gestion des Plats</title>
+  <link href="/CSS/plat.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="container">
+
+  <div class="plats-container">
+    <h1>Plats pour la catégorie : <span th:text="${categorie.nom}">ID de la catégorie</span></h1>
+    <div th:each="plat : ${plats}" class="plat">
+      <a th:href="@{/edit-carte/categories/{idc}/plats/{idp}(idc=${idc}, idp=${plat.id})}">
+        <img th:src="${plat.icone}" alt="Icône du plat" />
+        <p th:text="${plat.nom}">Nom du plat</p>
+      </a>
+    </div>
+  </div>
+
+  <form th:action="@{/edit-carte/categories/{idc}/plats/add-plat(idc=${idc})}" method="post" enctype="multipart/form-data">
+    <h2>Créer un Nouveau Plat</h2>
+    <div class="alert alert-success" th:if="${successMessagePlatCrea}" role="alert">
+      <span th:text="${successMessagePlatCrea}"></span>
+    </div>
+    <div class="alert alert-success" th:if="${successMessagePlatSuppr}" role="alert">
+      <span th:text="${successMessagePlatSuppr}"></span>
+    </div>
+    <div class="mb-3">
+      <label for="platNom">Nom du Plat :</label>
+      <input type="text" id="platNom" name="nom" required>
+    </div>
+    <div class="mb-3">
+      <label for="platDescription">Description :</label>
+      <textarea id="platDescription" name="description" required></textarea>
+    </div>
+    <div class="mb-3">
+      <label for="platPrix">Prix :</label>
+      <input type="number" id="platPrix" name="prix" required>
+    </div>
+    <div class="mb-3">
+      <label for="platIcone">Icône :</label>
+      <input type="file" id="platIcone" name="icone" accept="image/*" required>
+    </div>
+    <div class="mb-3">
+      <label for="platImage">Image :</label>
+      <input type="file" id="platImage" name="image" accept="image/*" required>
+    </div>
+
+    <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
+    <button type="submit">Créer le plat</button>
+    <a th:href="@{/edit-carte/categories}" class="btn btn-primary">Retour</a>
+
+  </form>
+
+
+</div>
+</body>
+</html>

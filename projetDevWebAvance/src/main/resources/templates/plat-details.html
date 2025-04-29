@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Détails du Plat</title>
+    <link href="/CSS/plat-details.css" rel="stylesheet">
+    <style>
+        .edit-form {
+            display: none;
+            margin-top: 20px;
+            border: 1px solid #ccc;
+            padding: 15px;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+        .edit-form.visible {
+            display: block;
+        }
+    </style>
+    <script>
+        function toggleEditForm() {
+            const form = document.getElementById('edit-form');
+            if (form) {
+                form.classList.toggle('visible');
+            }
+        }
+    </script>
+</head>
+<body>
+<h1>Gestion des Plats</h1>
+<div class="alert alert-success" th:if="${successMessagePlatModif}" role="alert">
+    <span th:text="${successMessagePlatModif}"></span>
+</div>
+<div class="container">
+    <div class="plat-details">
+        <img th:src="${plat.image}" alt="Image du plat" />
+        <h1 th:text="${plat.nom}">Nom du plat</h1>
+        <p th:text="${plat.description}">Description du plat</p>
+        <p><strong>Prix :</strong> <span th:text="${plat.prix}">Prix</span> €</p>
+    </div>
+
+    <div class="actions">
+        <a th:href="@{/edit-carte/categories/{idc}/plats(idc=${idc})}">
+            <button type="button">Retour</button>
+        </a>
+
+        <button type="button" onclick="toggleEditForm()">Modifier</button>
+        <form th:action="@{/edit-carte/categories/{idc}/plats/delete/{idp}(idc=${idc}, idp=${plat.id})}" method="post" style="width: 100%; max-width: 300px;">
+        <button type="submit" class="delete-btn" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce plat ?');">
+                Supprimer
+            </button>
+        </form>
+    </div>
+
+    <div id="edit-form" class="edit-form">
+        <h2>Modifier le Plat</h2>
+        <form th:action="@{/edit-carte/categories/{idc}/plats/update/{idp}(idc=${idc}, idp=${plat.id})}" method="post" enctype="multipart/form-data">
+        <div class="mb-3">
+                <label for="editNom">Nom du Plat :</label>
+                <input type="text" id="editNom" name="nom" th:value="${plat.nom}" required>
+            </div>
+            <div class="mb-3">
+                <label for="editDescription">Description :</label>
+                <textarea id="editDescription" name="description" required th:text="${plat.description}"></textarea>
+            </div>
+            <div class="mb-3">
+                <label for="editPrix">Prix :</label>
+                <input type="number" id="editPrix" name="prix" th:value="${plat.prix}" required>
+            </div>
+            <div class="mb-3">
+                <label for="editIcone">Icône :</label>
+                <input type="file" id="editIcone" name="icone" accept="image/*">
+            </div>
+            <div class="mb-3">
+                <label for="editImage">Image :</label>
+                <input type="file" id="editImage" name="image" accept="image/*">
+            </div>
+            <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
+            <button type="submit">Enregistrer les modifications</button>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

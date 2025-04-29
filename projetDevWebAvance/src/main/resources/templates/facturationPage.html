@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link href="/CSS/restaurant.css" rel="stylesheet">
+    <link href="/CSS/facturation.css" rel="stylesheet">
+    <script src="/JS/vue.global.prod.js" defer></script>
+    <script src="/JS/facturation.js" defer></script>
+
+    <script th:inline="javascript">
+        const facturesData = (/*[[${factures}]]*/ []).map(facture => ({
+            ...facture, showDetails: false // Ajout d'une propriété pour chaque facture
+        }));
+
+        console.log(facturesData);
+    </script>
+</head>
+<body>
+<div class="container mt-5">
+    <h1 th:text="'Vos factures : ' + ${user.prenom}"></h1>
+</div>
+
+<div id="appfacture">
+    <h2>{{ message }}</h2>
+    <div v-if="factures.length === 0" style="color: red;">
+        Aucune facture disponible.
+    </div>
+    <ul v-else>
+        <li v-for="facture in factures" :key="facture.id" class="mb-3 border p-3">
+            <p><strong>Numéro de la facture :</strong> {{ facture.id }}</p>
+            <p><strong>Information :</strong> {{ facture.dateFacture }}</p>
+
+            <button @click="facture.showDetails = !facture.showDetails" class="btn btn-primary">
+                {{ facture.showDetails ? "Masquer les détails 📕" : "Afficher détail 📖" }}
+            </button>
+            <div v-if="facture.showDetails" class="mt-2">
+                <p><strong>PRIX TTC :</strong> {{ facture.prixTTC }} €</p>
+            </div>
+        </li>
+    </ul>
+</div>
+</body>
+</html>

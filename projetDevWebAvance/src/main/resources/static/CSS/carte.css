@@ -1,0 +1,71 @@
+/* Styles de base */
+body {
+    height: 100%;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    background-color: #f8f9fa;
+}
+
+.container {
+    max-width: 600px;
+    width: 100%;
+    padding: 40px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    text-align: center;
+}
+
+h1 {
+    font-size: 2.5em;
+    color: #333333;
+    margin-bottom: 30px;
+}
+
+h2 {
+    font-size: 1.8em;
+    color: #5a67d8;
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+.carte-details {
+    text-align: left;
+    margin-top: 20px;
+}
+
+p {
+    font-size: 1.3em;
+    color: #555;
+    margin: 15px 0;
+}
+
+.container .btn {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 1.2em;
+    color: #ffffff;
+    background-color: #5a67d8;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+}
+
+.container .btn:hover {
+    background-color: #4c51bf;
+}
+
+.alert-success {
+    background-color: #e6fffa;
+    color: #2d3748;
+    padding: 15px;
+    border-left: 4px solid #38a169;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    font-size: 1.2em;
+}

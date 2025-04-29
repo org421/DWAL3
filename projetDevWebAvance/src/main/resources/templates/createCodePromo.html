@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body class="bg-body-tertiary">
+
+<div class="container">
+    <main>
+        <div class="py-5 text-center">
+            <h2>Création de code promo</h2>
+            <p class="lead">Ici, vous pouvez créer vos propres codes de promotion.</p>
+        </div>
+
+        <form action="/admin/newCodePromo" method="post">
+            <div class="form-group">
+                <label>Code :</label>
+                <input value="codeTest" name="code" type="text" class="form-control" placeholder="ex: abc123..." required id="code">
+            </div>
+            <div class="form-row">
+                <div class="form-group col-6">
+                    <label>Nombre d'activation maximum :</label>
+                    <input value="5" name="nbmax" type="number" class="form-control" required id="nbmax">
+                </div>
+                <div class="form-group col-6">
+                    <label>Réduction : (en %)</label>
+                    <input value="20" name="reduction" type="number" class="form-control" required id="reduction" max="100" min="0">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-6">
+                    <label>Date de début de la promotion :</label>
+                    <input name="dateDebut" type="date" class="form-control" required id="dateDebut">
+                </div>
+
+                <div class="form-group col-6">
+                    <label>Date de fin de la promotion :</label>
+                    <input name="dateFin" type="date" class="form-control" required id="dateFin">
+                </div>
+            </div>
+
+            <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
+
+            <button id="envoyer" type="submit" class="btn btn-primary"> Envoyer </button>
+
+        </form>
+    </main>
+
+</div>
+
+</body>
+</html>

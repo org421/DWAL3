@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js'></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link href="/CSS/restaurant.css" rel="stylesheet">
+    <script src="/JS/restaurant.js"></script>
+</head>
+<body>
+<div class="container mt-5">
+    <h1 th:text="${restaurant.getName()}"></h1>
+
+    <div class="d-flex justify-content-center mt-3">
+        <button class="btn btn-primary mx-2" onclick="categoryPourResto('reserver')">Réserver</button>
+        <button class="btn btn-primary mx-2" onclick="categoryPourResto('post')">Post</button>
+        <button class="btn btn-primary mx-2" onclick="categoryPourResto('offre')">Offre d'emploi</button>
+        <button class="btn btn-primary mx-2" onclick="categoryPourResto('commander')">Livraison</button>
+    </div>
+
+    <!-- Sections pour chaque action -->
+<!--    <script th:inline="javascript">-->
+<!--        const usersData = JSON.parse(/*[[${users}]]*/ []);-->
+<!--    </script>-->
+    <script th:inline="javascript">
+        // const carte = JSON.parse(/*[[${carte}]]*/ );
+        const carte = /*[[${carte}]]*/;
+        console.log(carte);
+    </script>
+    <div class="box mt-3">
+        <div id="commander-section" class="section d-none">
+            <div id="app">
+                <div class="d-flex justify-content-center mb-3">
+                    <!-- Boutons générés dynamiquement -->
+                    <button v-for="categorie in categories"
+                            :key="categorie"
+                            @click="selectCategory(categorie)"
+                            class="btn btn-secondary mx-2">
+                        {{ categorie.nom }}
+                    </button>
+                </div>
+                <div class="order-options d-flex" style="border: 1px black solid; min-height: 400px; border-radius: 10px; position: relative">
+                    <!-- Menu List -->
+                    <div class="menu-list d-flex flex-column justify-content-start align-items-center"
+                         style="background-color: gray; width: 40%; min-height: 400px; border-radius: 10px 0px 0px 10px; padding: 10px;">
+                        <div v-for="menu in menus" :key="menu.id" class="d-flex align-items-center mb-2 w-100">
+                            <!-- Bouton pour retirer -->
+                            <button style="width: 50px; margin-right: 5px" class="btn btn-primary btn-sm me-2" @click="retirerMenu(menu.id)">
+                                -
+                            </button>
+                            <!-- Nom du menu -->
+                            <button @click="selectMenu(menu)" class="btn btn-primary flex-grow-1">
+                                {{ menu.nom }}
+                            </button>
+                            <!-- Bouton pour ajouter -->
+                            <button style="width: 50px; margin-left: 5px" class="btn btn-primary btn-sm ms-2" @click="ajouterMenu(menu.id)">
+                                +
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Plat List -->
+                    <div class="plat-list-container position-relative" style="width: 60%; border: 1px solid #ddd; border-radius: 10px; min-height: 400px;">
+                        <!-- Liste des plats -->
+                        <div class="plat-list d-flex flex-wrap justify-content-start align-items-start p-3">
+                            <div v-for="plat in plats" :key="plat.id" class="card m-2"
+                                 style="width: 10rem; border: 1px solid #ddd; border-radius: 10px;">
+                                <img :src="plat.icone" alt="Icône du plat" class="card-img-top"
+                                     style="height: 8rem; object-fit: cover; border-radius: 10px 10px 0 0;">
+                                <div class="card-body text-center">
+                                    <h6 class="card-title">{{ plat.nom }}</h6>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <form action="/reservation" method="post">
+
+            <div id="reserver-section" class="section d-none">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <label for="numPeople">Nombre de personnes :</label>
+                        <select id="numPeople" required name="nbPersonne" class="form-control">
+                            <option value="" disabled selected>Sélectionner une valeur</option>
+                            <option value="1">1 personne</option>
+                            <option value="2">2 personnes</option>
+                            <option value="3">3 personnes</option>
+                            <option value="4">4 personnes</option>
+                            <option value="5">5 personnes</option>
+                            <option value="6">6 personnes</option>
+                        </select>
+
+                    </div>
+
+                    <div>
+                        <label for="horraireReservation">Horraire :</label>
+                        <select id="horraireReservation" required name="horaire" class="form-control">
+                            <option value="" disabled selected>Sélectionner une valeur</option>
+                            <option value="11:00">11:00</option>
+                            <option value="11:30">11:30</option>
+                            <option value="12:00">12:00</option>
+                            <option value="12:30">12:30</option>
+                            <option value="13:00">13:00</option>
+                            <option value="13:30">13:30</option>
+                            <option value="14:00">14:00</option>
+                        </select>
+
+                    </div>
+                    <div>
+                        <label for="selectedDate">Date Sélectionnée :</label>
+                        <p id="selectedDate" class="mt-2"></p>
+                    </div>
+                </div>
+                <div id="calendar" class="mt-3"></div>
+                <div class="mt-3">
+                    <input type="hidden" required id="dateFormulaire" name="date">
+                    <input type="hidden" required name="idRestaurant" th:value="${restaurant.id}">
+                    <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
+                    <button class="btn btn-success" onclick="confirmReservation()">Confirmer</button>
+                </div>
+            </div>
+        </form>
+
+
+        <div id="post-section" class="section d-none">
+            <p>Section Post (contenu exemple)</p>
+        </div>
+
+        <div id="offre-section" class="section d-none">
+            <p>Section Offre d'emploi (contenu exemple)</p>
+        </div>
+    </div>
+</div>
+</body>
+</html>

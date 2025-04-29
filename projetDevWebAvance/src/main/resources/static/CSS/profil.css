@@ -1,0 +1,78 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f9f9f9;
+    color: #333;
+}
+
+.profile-container {
+    display: flex;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.nav-menu {
+    width: 25%;
+    background-color: #343a40;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
+
+.nav-menu button {
+    background: transparent;
+    border: none;
+    color: #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s, color 0.3s;
+}
+
+.nav-menu button:hover,
+.nav-menu button:focus {
+    background-color: #495057;
+    color: #fff;
+}
+
+.content {
+    width: 75%;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+}
+
+.content-section {
+    display: none; /* Masquer toutes les sections par défaut */
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+.active {
+    display: block; /* Afficher uniquement la section active */
+}
+
+h2 {
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+button {
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+button:hover {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    border: none;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}

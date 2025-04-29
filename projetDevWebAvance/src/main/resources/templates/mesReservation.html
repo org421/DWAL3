@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <script src="/JS/mesReservation.js"></script>
+</head>
+<body>
+<div id="app" class="container mt-5">
+
+    <div v-if="upcomingReservations.length > 0">
+        <h2>Réservations à venir</h2>
+        <ul>
+            <li v-for="reservation in upcomingReservations" :key="reservation.id">
+                <div class="bg-light p-5 rounded">
+                    <h1>{{ reservation.restaurantName }}</h1>
+                    <p>Le {{ reservation.date }} </p>
+                    <p>à {{ reservation.horaireDebut }}</p>
+                    <a class="btn btn-lg btn-primary" :href="'/restaurant/' + reservation.idRestaurant" role="button">
+                        Voir le restaurant »
+                    </a>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div v-else>
+        <h2>Aucune réservation à venir.</h2>
+    </div>
+
+    <div v-if="pastReservations.length > 0" class="mt-5">
+        <h2>Réservations passées</h2>
+        <ul>
+            <li v-for="reservation in pastReservations" :key="reservation.id">
+                <div class="bg-light p-5 rounded">
+                    <h1>{{ reservation.restaurantName }}</h1>
+                    <p>Le {{ reservation.date }} </p>
+                    <p>à {{ reservation.horaireDebut }}</p>
+                    <a class="btn btn-lg btn-secondary" :href="'/restaurant/' + reservation.idRestaurant" role="button">
+                        Voir le restaurant »
+                    </a>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div v-else>
+        <h2>Aucune réservation passée.</h2>
+    </div>
+
+
+</div>
+
+<script th:inline="javascript">
+    const reservations = (/*[[${reservations}]]*/ []);
+</script>
+</body>
+</html>

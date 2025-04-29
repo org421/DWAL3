@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PlaniFood</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="/JS/vue.global.prod.js" defer></script>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/CSS/base.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="/JS/base.js" defer></script>
+</head>
+<body>
+<!--<div id="app">-->
+<!--    {{ message }}-->
+<!--</div>-->
+<header>
+    <nav class="navbar navbar-expand-lg bg-light navbar-light ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">
+                <img src="/img/logo.png" th:label="logo" width="80" height="80">
+            </a>
+            <button class="navbar-toggler" type="button" data-mdb-toggle="collapse" data-mdb-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                </ul>
+                <form class="w-auto position-relative">
+                    <input type="search" id="searchBar" class="form-control" autocomplete="off" placeholder="Recherche restaurant" aria-label="Search">
+                    <div id="resResto" class="position-absolute w-100 mt-1"></div>
+                </form>
+            </div>
+
+            <div class="compte">
+                <img src="/img/unknow.png" width="50" height="50">
+
+                <div sec:authorize="isAnonymous()" class="info">
+                    <div class="info-text">
+                        <h4>Bienvenue</h4>
+                    </div>
+                    <div class="info-buttons">
+                        <a href="/register" class="btn btn-primary mt-2">Créer</a>
+                        <a href="/login" class="btn btn-primary mt-2">Connecter</a>
+                        <hr>
+                        <a href="/login" class="btn btn-primary mt-1 mb-2">Espace Pro</a>
+                    </div>
+                </div>
+
+                <div sec:authorize="isAuthenticated()" class="infoLog">
+                    <div class="info-text">
+                        <h4 th:text="${user.getNom()}"></h4>
+                    </div>
+                    <div class="info-buttons">
+                        <a href="/mes-reservations" class="btn btn-primary mt-2">Mes réservations</a>
+                        <a href="/facture" class="btn btn-primary mt-2">Mes factures</a>
+                        <a href="/profil" class="btn btn-primary mt-2">Mon profil</a>
+                        <a href="/panier" class="btn btn-primary mt-2">Mon panier</a>
+                        <hr>
+                        <a href="/Mon-compte-pro" class="btn btn-primary mt-1 mb-2">Espace Pro</a>
+                        <form action="/logout" method="post" style="display: inline;">
+                            <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
+                            <button type="submit" class="mt-2 mb-1 btn btn-danger">Déconnexion</button>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </nav>
+</header>
+
+<main>
+    <div th:insert="~{${content}}"></div>
+</main>
+
+
+<footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+    <p class="col-md-4 mb-0 text-body-secondary">© 2024 PlaniFood</p>
+
+    <a href="/" class="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
+        <img src="/img/logo.png" width="80" height="80">
+    </a>
+
+    <ul class="nav col-md-4 justify-content-end">
+        <li class="nav-item"><a href="/mes_ticket" class="nav-link px-2 text-body-secondary">Support</a></li>
+        <li class="nav-item"><a href="/abonnement" class="nav-link px-2 text-body-secondary">Tarif</a></li>
+    </ul>
+</footer>
+
+
+
+</body>
+</html>

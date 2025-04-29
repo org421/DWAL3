@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="/JS/ticketVue.js" defer></script>
+<script th:inline="javascript">
+    const allticket = /*[[${tickets}]]*/ [] ;
+
+    console.log(allticket);
+</script>
+
+</head>
+<body>
+
+<div class="container mt-5">
+    <h1 th:text="'Vos Tickets : ' + ${user.prenom}"></h1>
+    <div id="appfacture">
+        <div>
+            <button class="btn btn-primary me-2" @click="filterOpenTickets">Seulement ouvert</button>
+            <button class="ml-2 btn btn-secondary" @click="resetFilter">Tous les tickets</button>
+            <a class="ml-2 btn btn-secondary" href="/creationTicket">Nouveau ticket</a>
+        </div>
+        <div v-if="filteredTickets.length > 0">
+            <h2>{{ message }}</h2>
+            <ul class="list-group">
+                <li class="list-group-item" v-for="ticket in paginatedTickets" :key="ticket.id">
+                    <h5>{{ ticket.titre }}</h5>
+                    <p><strong>Description: </strong>{{ ticket.description }}</p>
+                    <p><strong>Status: </strong>{{ getStatus(ticket.status) }}</p>
+                    <p><strong>Priorité: </strong>{{ getPrioriter(ticket.prioriter) }}</p>
+                    <p><strong>Date de création: </strong>{{ formatDate(ticket.dateCreation) }}</p>
+                    <p><strong>Date de modification: </strong>{{ formatDate(ticket.dateModification) }}</p>
+                    <button class="btn btn-secondary" @click="lien(ticket.id)">Chat</button>
+                </li>
+            </ul>
+            <div class="mt-3">
+                <button
+                        class="btn btn-outline-primary me-2"
+                        @click="prevPage"
+                        :disabled="currentPage === 1">Précédent</button>
+                <button
+                        class="btn btn-outline-primary ms-2"
+                        @click="nextPage"
+                        :disabled="currentPage >= maxPage">Suivant</button>
+                <span>    Page {{ currentPage }}</span> <!--make bigger space btw button and page but its bugged counting one space -->
+            </div>
+        </div>
+        <div v-else>
+            <p>Aucun ticket disponible.</p>
+        </div>
+    </div>
+</div>
+
+
+
+</body>
+</html>

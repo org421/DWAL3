@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Mon Profil</title>
+    <link rel="stylesheet" href="/CSS/profil.css">
+    <script src="/JS/profil.js"></script>
+</head>
+<body>
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Mon Profil</h1>
+    <div class="profile-container">
+        <div class="nav-menu">
+            <button onclick="showSection('persoInfo')">📄 Mes Informations Personnelles</button>
+            <button onclick="showSection('voirFactures')">💳 Voir les Factures</button>
+            <button onclick="showSection('voirReservations')">📅 Voir les Réservations</button>
+            <button onclick="showSection('changePassword')">🔒 Changer le Mot de Passe</button>
+            <button onclick="showSection('editInfo')">✏️ Modifier Mes Informations</button>
+        </div>
+
+        <div class="content">
+
+            <div id="persoInfo" class="content-section">
+                <h2>Mes Informations Personnelles</h2>
+                <p><strong>Nom :</strong> <span th:text="${user.nom}"></span></p>
+                <p><strong>Prénom :</strong> <span th:text="${user.prenom}"></span></p>
+                <p><strong>Email :</strong> <span th:text="${user.email}"></span></p>
+                <p><strong>Téléphone :</strong> <span th:text="${user.tel}"></span></p>
+            </div>
+
+            <div id="voirFactures" class="content-section">
+                <h2>Voir les Factures</h2>
+                <button onclick="location.href='/'" class="btn btn-secondary">Afficher mes factures</button>
+            </div>
+
+            <div id="voirReservations" class="content-section">
+                <h2>Voir les Réservations</h2>
+                <button onclick="location.href='/'" class="btn btn-secondary">Afficher mes réservations</button>
+            </div>
+
+            <div id="changePassword" class="content-section">
+                <h2>Changer le Mot de Passe</h2>
+
+                <div th:if="${passwordError}" class="alert alert-danger" role="alert" th:text="${passwordError}"></div>
+                <div th:if="${passwordSuccess}" class="alert alert-success" role="alert" th:text="${passwordSuccess}"></div>
+
+                <form action="/change-password" method="post">
+                    <input type="password" name="currentPassword" placeholder="Mot de passe actuel" required class="form-control mb-2">
+                    <input type="password" name="newPassword" placeholder="Nouveau mot de passe" required class="form-control mb-2">
+                    <input type="password" name="confirmNewPassword" placeholder="Confirmer le nouveau mot de passe" required class="form-control mb-2">
+                    <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
+                    <button type="submit" class="btn btn-primary">Changer le mot de passe</button>
+                </form>
+            </div>
+
+            <div id="editInfo" class="content-section">
+                <h2>Modifier Mes Informations Personnelles</h2>
+
+                <div th:if="${updateError}" class="alert alert-danger" role="alert" th:text="${updateError}"></div>
+                <div th:if="${updateSuccess}" class="alert alert-success" role="alert" th:text="${updateSuccess}"></div>
+
+                <form action="/update-info" method="post">
+                    <label for="nom">Nom :</label>
+                    <input type="text" id="nom" name="nom" th:value="${user.nom}" required class="form-control mb-2">
+
+                    <label for="prenom">Prénom :</label>
+                    <input type="text" id="prenom" name="prenom" th:value="${user.prenom}" required class="form-control mb-2">
+
+                    <label for="email">Email :</label>
+                    <input type="email" id="email" name="email" th:value="${user.email}" required class="form-control mb-2">
+
+                    <label for="tel">Téléphone :</label>
+                    <input type="text" id="tel" name="tel" th:value="${user.tel}" required class="form-control mb-2">
+
+                    <label for="password">Mot de passe actuel :</label>
+                    <input type="password" id="password" name="password" required class="form-control mb-2">
+
+                    <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
+                    <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

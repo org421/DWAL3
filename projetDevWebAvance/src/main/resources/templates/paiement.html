@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<script src="/JS/paiement.js" ></script>
+
+<body class="bg-light">
+
+<div id="container">
+</div>
+
+<script th:inline="javascript">
+    const dataUser = /*[[${user}]]*/ '{}';
+    const user = dataUser;
+    const dataToken = /*[[${_csrf.token}]]*/ '{}';
+    const token = dataToken;
+    const codePromo = /*[[${codePromo}]]*/ '{}';
+</script>
+
+</body>
+
+</html>

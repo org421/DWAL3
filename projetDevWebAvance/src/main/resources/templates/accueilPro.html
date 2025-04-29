@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <script src="/JS/accueilPro.js"></script>
+</head>
+<body>
+<div class="container mt-5">
+    <div class="row">
+        <div id="resInfo" class="content col-md-6" th:if="${restaurant != null}">
+            <h2>Informations du restaurant</h2>
+            <p><strong>Nom :</strong> <span th:text="${restaurant.name}"></span></p>
+            <p><strong>Adresse :</strong> <span th:text="${restaurant.address}"></span></p>
+            <p><strong>Ville :</strong> <span th:text="${restaurant.city}"></span></p>
+            <p><strong>État :</strong> <span th:text="${restaurant.state}"></span></p>
+            <p><strong>Téléphone :</strong> <span th:text="${restaurant.phone}"></span></p>
+        </div>
+        <div class="content col-md-6">
+            <h2>Informations sur votre abonnement</h2>
+            <div th:if="${user.restaurateur.abonnementActive == null}">
+                <p class="lead">Vous n'avez actuellement aucun abonnement.<p>
+            </div>
+            <div th:if="${user.restaurateur.abonnementActive != null}">
+                <p><strong>Abonnement:</strong> <span th:text="'Abonnement ' + ${user.restaurateur.abonnementActive.abonnement.nom}"></span></p>
+                <p th:if="${user.restaurateur.abonnementActive.renouvellement}"><strong>Renouvellement le :</strong> <span th:text="${user.restaurateur.abonnementActive.dateFin}"></span></p>
+                <p th:if="${user.restaurateur.abonnementActive.renouvellement == false}"><strong>Fin de l'abonnement le :</strong> <span th:text="${user.restaurateur.abonnementActive.dateFin}"></span></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="d-flex">
+                <a href="/edit-restaurant" class="btn btn-primary flex-fill">Edit restaurant</a>
+                <a href="/edit-carte" class="btn btn-primary flex-fill">Edit carte</a>
+            </div>
+        </div>
+        <div class="col-md-6" th:if="${user.restaurateur.abonnementActive != null}">
+            <div class="d-flex">
+                <a href="/abonnement" class="btn btn-primary flex-fill me-2">Changer d'abonnement</a>
+                <a href="/deactivateAbo" class="btn btn-danger flex-fill" th:if="${user.restaurateur.abonnementActive.renouvellement}" >Résilier l'abonnement</a>
+                <span class="btn btn-secondary flex-fill" th:if="${user.restaurateur.abonnementActive.renouvellement == false}" >Résilier l'abonnement</span>
+            </div>
+        </div>
+        <div class="col-md-6" th:if="${user.restaurateur.abonnementActive == null}">
+            <div class="d-flex">
+                <a href="/abonnement" class="btn btn-primary flex-fill me-2">Prendre un abonnement</a>
+            </div>
+        </div>
+    </div>
+    <div style="margin: 0 auto;">
+        <canvas id="lineChart"></canvas>
+    </div>
+
+    <h2 class="mb-4 text-center">Liste des APIs possibles</h2>
+    <div class="row">
+        <!-- Exemple d'une API -->
+        <div class="col-md-6 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Récupérer la liste des prochaines réservations</h5>
+                    <p class="card-text text-muted" th:text="'GET /api/' + ${restaurant.uuid} + '/' + ${restaurant.id} + '/reservation'">
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Supprimer une réservation</h5>
+                    <p class="card-text text-muted" th:text="'DELETE /api/' + ${restaurant.uuid} + '/' + ${restaurant.id} + '/reservation/idReservation'">
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script th:inline="javascript">
+        const statReservation = /*[[${statReservation}]]*/ {};
+        const labels = Object.keys(statReservation);
+        const dataVal = Object.values(statReservation);
+    </script>
+</div>
+</body>
+</html>

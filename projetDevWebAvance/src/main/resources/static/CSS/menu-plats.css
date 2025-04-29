@@ -1,0 +1,140 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+h1 {
+    text-align: center;
+}
+
+.container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background: #fff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+.plats-container, .plats-check-container {
+    margin-top: 20px;
+}
+
+.plats-container h2, .plats-check-container h2 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    color: #555;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 5px;
+}
+
+.plat, .selected-plat {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    padding: 10px;
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    transition: background 0.3s ease;
+}
+
+.plat:hover, .selected-plat:hover {
+    background: #f0f0f0;
+}
+
+.plat input[type="checkbox"] {
+    margin-right: 10px;
+    transform: scale(1.2);
+}
+
+.plat label {
+    font-size: 1rem;
+    color: #333;
+}
+
+.selected-plat {
+    justify-content: flex-start;
+}
+
+.selected-plat img {
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+    border-radius: 5px;
+    object-fit: cover;
+    border: 1px solid #ccc;
+}
+
+.selected-plat span {
+    font-size: 1rem;
+    color: #333;
+    font-weight: bold;
+}
+
+button {
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+button:hover {
+    background: #0056b3;
+}
+
+.btn-secondary {
+    display: block;
+    margin-top: 20px;
+    text-align: center;
+    background: #6c757d;
+    color: white;
+    text-decoration: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+.btn-secondary:hover {
+    background: #5a6268;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+    }
+
+    .plat, .selected-plat {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .selected-plat img {
+        width: 40px;
+        height: 40px;
+        margin-bottom: 5px;
+    }
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+}

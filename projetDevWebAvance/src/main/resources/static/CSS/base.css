@@ -1,0 +1,144 @@
+.compte:hover {
+    .info {
+        display: block;
+    }
+    .infoLog {
+        display: block;
+    }
+}
+
+.compte{
+    position: relative;
+    align-content: center;
+}
+
+.info, .infoLog {
+    box-sizing: border-box;
+    border-radius: 8px;
+    width: 200px;
+    background-color: #f0f0f0;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    padding: 15px;
+    display: none;
+    position: absolute;
+    z-index: 100000000;
+    top: 45px;
+    right: 10px;
+    border: 1px solid #ccc;
+    text-align: center;
+}
+
+/* Conteneur pour le texte */
+.info-text h4, .infoLog h4 {
+    margin-bottom: 15px;
+    text-align: center; /
+}
+
+/* Styles pour les boutons */
+.info-buttons .btn, .infoLog .btn {
+    width: 80%;
+    margin: 5px auto;
+    text-align: center;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 0;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* Effet de survol pour les boutons */
+.info-buttons .btn:hover {
+    background-color: #0056b3;
+}
+
+
+
+html, body {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
+}
+
+footer {
+    width: 100%;
+    background-color: white; /* pour eviter le transparent comme tu ma dit */
+    text-align: center;
+    padding: 10px 0;
+    position: relative;
+}
+
+
+
+#resResto:empty {
+    display: none;
+}
+
+/* Conteneur des résultats */
+#resResto {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f0f0f0;
+    max-height: 250px;
+    overflow-y: auto;
+    width: 100%;
+    position: absolute;
+    z-index: 1000;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    padding: 10px;
+}
+
+
+/* Chaque élément de résultat */
+#resResto .result-item {
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    border-bottom: 1px solid #ddd;
+    color: black;
+    background-color: #f0f0f0;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-left: 20px;
+}
+
+
+/* Ajouter un carré gris devant chaque résultat */
+#resResto .result-item::before {
+    content: "";
+    width: 10px;
+    height: 10px;
+    background-color: #4a4a4a;
+    margin-right: 10px;
+}
+
+
+/* Effet de survol */
+#resResto .result-item:hover {
+    background-color: #4a4a4a;
+    color: white;
+}
+
+/* Forcer la couleur des liens */
+#resResto .result-item a {
+    color: black;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+/* Forcer la couleur des liens au survol */
+#resResto .result-item:hover a {
+    color: white; /* Texte blanc au survol */
+}
+
+/* Retirer la bordure du dernier élément */
+#resResto .result-item:last-child {
+    border-bottom: none;
+}

@@ -1,0 +1,16 @@
+<script src="/JS/viewCodePromo.js" ></script>
+<link href="/CSS/codePromo.css" rel="stylesheet">
+
+<body>
+<div id="container" >
+</div>
+
+
+<script th:inline="javascript">
+    const codesPromos = /*[[${codesPromos}]]*/ '{}';
+    const dataToken = /*[[${_csrf.token}]]*/ '{}';
+    const token = dataToken;
+</script>
+
+</body>
+</html>

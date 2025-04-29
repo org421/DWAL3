@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Plats du Menu</title>
+    <link href="/CSS/menu-plats.css" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <h1>Plats pour le Menu : <span th:text="${menu.nom}">Nom du Menu</span></h1>
+    <div class="alert alert-success" th:if="${successMessagePlat}" role="alert">
+        <span th:text="${successMessagePlat}"></span>
+    </div>
+    <div class="alert alert-success" th:if="${successMessagePlatVide}" role="alert">
+        <span th:text="${successMessagePlatVide}"></span>
+    </div>
+    <form th:action="@{/edit-carte/categories/{idc}/menus/{id}/update-plats(idc=${idc},id=${menu.id})}" method="post">
+        <div class="plats-container">
+            <h2>Liste des Plats</h2>
+            <div th:each="plat : ${plats}" class="plat">
+                <input type="checkbox" name="platsIds" th:value="${plat.id}" th:checked="${plat.enabled}">
+                <label th:for="${'plat_' + plat.id}" th:text="${plat.nom}"></label>
+            </div>
+        </div>
+        <button type="submit">Mettre à jour les Plats</button>
+    </form>
+
+    <div class="plats-check-container">
+        <h2>Plats sélectionnés</h2>
+        <div th:each="plat : ${platsCheck}" class="selected-plat">
+            <img th:src="${plat.icone}" alt="Icône du plat" class="selected-plat-icon">
+            <span th:text="${plat.nom}"></span>
+        </div>
+    </div>
+    <form th:action="@{/edit-carte/categories/{idc}/menus/{id}/clear-plats(idc=${idc},id=${menu.id})}" method="post" style="margin-top: 20px;">
+        <button type="submit" class="btn btn-danger">Vider les menus sélectionnés</button>
+    </form>
+
+    <a th:href="@{/edit-carte/categories/{idc}(idc=${idc})}" class="btn btn-secondary">Retour</a>
+</div>
+</body>
+</html>

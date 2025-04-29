@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+
+<div class="container mt-5">
+    <form action="/creationTicket" method="post">
+        <div class="mb-3">
+            <label for="titre" class="form-label">Titre</label>
+            <input type="text" name="titre" class="form-control" id="titre"  placeholder="" required>
+        </div>
+        <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <input type="text" name="description" class="form-control" id="description" placeholder="" required> <!-- name for take in controller-->
+        </div>
+
+        <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
+
+        <button type="submit" class="btn btn-primary">Envoyer le ticket</button>
+    </form>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

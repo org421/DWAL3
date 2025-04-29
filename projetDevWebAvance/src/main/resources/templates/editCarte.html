@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<link rel="stylesheet" href="/CSS/carte.css">
+<body>
+
+<div class="container">
+    <h1>Gestion de la Carte du Restaurant</h1>
+
+    <div th:if="${message}" class="alert alert-success">
+        <p th:text="${message}"></p>
+    </div>
+
+    <div th:if="${carte != null}">
+        <h2>Carte actuelle</h2>
+        <div class="carte-details">
+            <p><strong>Nom de la carte :</strong> <span th:text="${carte.nom}">Nom de la carte</span></p>
+            <a href="/edit-carte/categories" class="btn">Modifier</a>
+        </div>
+    </div>
+
+    <div th:if="${carte == null}">
+        <h2>Créer une Nouvelle Carte</h2>
+        <form action="/add-carte" method="post">
+            <div class="mb-3">
+                <label for="carteNom">Nom de la Carte :</label>
+                <input type="text" id="carteNom" name="nom" required>
+            </div>
+            <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
+            <button class="btn btn-primary" type="submit">Créer Carte</button>
+        </form>
+    </div>
+    <a th:href="@{/Mon-compte-pro}" class="btn btn-secondary">Retour</a>
+</div>
+
+
+</body>
+</html>
+

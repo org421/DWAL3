@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script th:inline="javascript">
+        const messageData = (/*[[${messages}]]*/ []);
+        console.log(messageData);
+    </script>
+    <script src="/JS/ticketVue.js" defer></script>
+
+
+</head>
+<body>
+
+<h1>Chat Ticket</h1>
+<div id="appMessage">
+    <h2>{{ msg }}</h2>
+    <ul>
+        <li v-for="message in messages" :key="message.id">
+            <strong>Client:</strong> {{ message.idClient.nom }} {{ message.idClient.prenom }}<br>
+            <strong>Message:</strong> {{ message.message }}<br>
+            <strong>Date:</strong> {{ formatDate(message.dateEnvoie) }}
+        </li>
+        <form th:action="'/chatTicket/' + ${id}" method="post">
+        <div class="mb-3">
+            <strong><label for="chat" class="form-label">Ecrire un message</label></strong>
+            <input type="text" name="chat" class="form-control" id="chat" placeholder="" required> <!-- name for take in controller-->
+        </div>
+
+        <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
+
+        <button type="submit" class="btn btn-primary">Envoyer</button>
+            </form>
+
+    </ul>
+</div>
+
+
+
+</body>
+</html>

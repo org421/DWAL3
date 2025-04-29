@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmation de Réservation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+        .container {
+            width: 80%;
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #4CAF50;
+        }
+        .btn {
+            display: block;
+            width: fit-content;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            text-align: center;
+            font-weight: bold;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            color: #777;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Merci pour votre réservation !</h1>
+    <p>Bonjour,</p>
+    <p>Votre réservation au restaurant <strong th:text="${reservation.restaurantName}"></strong> a été confirmée avec succès !</p>
+    <p><strong>Date :</strong> <span th:text="${reservation.date}"></span></p>
+    <p><strong>Heure :</strong> <span th:text="${reservation.horaireDebut}"></span></p>
+    <p><strong>Nombre de personnes :</strong> <span th:text="${reservation.nombreDePersonnes}"></span></p>
+    <p class="footer">Merci de nous avoir choisis !<br>Restaurant <span th:text="${reservation.restaurantName}"></span></p>
+</div>
+</body>
+</html>

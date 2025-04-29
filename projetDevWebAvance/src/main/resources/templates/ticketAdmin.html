@@ -1,0 +1,66 @@
+<head>
+    <script src="/JS/adminTicket.js" defer></script>
+    <script th:inline="javascript">
+        const ticketsData = (/*[[${tickets}]]*/ []);
+    </script>
+
+</head>
+<body>
+<div id="app" class="container mt-5">
+    <h1>Gestion des Tickets</h1>
+    <div class="mb-3">
+        <input
+                type="text"
+                class="form-control"
+                v-model="searchQuery"
+                placeholder="Rechercher par client ou titre)">
+    </div>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Titre</th>
+            <th>Description</th>
+            <th>Priorité</th>
+            <th>Statut</th>
+            <th>Client</th>
+            <th>Date Création</th>
+            <th>Date Modification</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-for="ticket in filteredTickets" :key="ticket.id">
+            <td>{{ ticket.id }}</td>
+            <td>{{ ticket.titre }}</td>
+            <td>{{ ticket.description }}</td>
+            <td>
+                <span v-if="ticket.priorite === 0">Faible</span>
+                <span v-else-if="ticket.priorite === 1">Moyenne</span>
+                <span v-else-if="ticket.priorite === 2">Élevée</span>
+                <span v-else>Inconnue</span>
+            </td>
+            <td>
+                <span v-if="ticket.status === 1" class="text-success">Ouvert</span>
+                <span v-else class="text-danger">Fermé</span>
+            </td>
+            <td>{{ ticket.client }}</td>
+            <td>{{ formatDate(ticket.dateCreation) }}</td>
+            <td>{{ formatDate(ticket.dateModification) }}</td>
+            <td>
+                <button class="btn btn-secondary" @click="lien(ticket.id)">Voir le ticket</button>
+            </td>
+            <td>
+                <form action="/admin/ticketAdmin" method="post">
+                    <input type="hidden" name="id" :value="ticket.id">
+                    <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
+                    <button type="submit" class="btn btn-sm" :class="ticket.status === 1 ? 'btn-danger' : 'btn-success'">
+                        {{ ticket.status === 1 ? 'Fermer' : 'Ouvrir' }}
+                    </button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>

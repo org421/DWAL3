@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<link href="/CSS/menu.css" rel="stylesheet">
+<body>
+<div class="container">
+    <h1>Gestion des Menus</h1>
+    <div class="alert alert-success" th:if="${successMessage}" role="alert">
+        <span th:text="${successMessage}"></span>
+    </div>
+    <div class="categories-menus">
+        <ul>
+                    <ul th:each="menu : ${menus}">
+                        <p>
+                            <strong>Nom du menu :</strong>
+                            <span th:text="${menu.nom}">Nom du menu</span>
+                        </p>
+                        <p>
+                            <strong>Prix du menu :</strong>
+                            <span th:text="${menu.prix}">Prix du menu</span>
+                        </p>
+                        <p>
+                            <strong>Description :</strong>
+                            <span th:text="${menu.description}">Description du menu</span>
+                        </p>
+                        <a th:href="@{/edit-carte/categories/{idc}/menus/{id}/plats(idc=${idc},id=${menu.id})}" class="btn btn-primary">Voir les plats</a>
+
+                        <form th:action="@{/suppr-menu}" method="post" style="margin-top: 20px;">
+                            <input hidden="hidden" name="idMenu" th:value="${menu.id}">
+                            <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
+                            <button type="submit" class="btn btn-danger">Supprimer</button>
+                        </form>
+
+                    </ul>
+        </ul>
+
+
+    </div>
+
+    <h2>Créer un Nouveau Menu</h2>
+    <form th:action="@{/edit-carte/add-menus/{id}(id=${idc})}" method="post">
+        <div class="mb-3">
+            <label for="menuNom">Nom du Menu :</label>
+            <input type="text" id="menuNom" name="nom" required>
+        </div>
+        <div class="mb-3">
+            <label for="menuPrix">Prix :</label>
+            <input type="number" id="menuPrix" name="prix" step="0.01" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="menuDescription">Description :</label>
+            <textarea id="menuDescription" name="description" required></textarea>
+        </div>
+
+        <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
+        <button type="submit">Créer le menu</button>
+    </form>
+
+    <a th:href="@{/edit-carte/categories}" class="btn btn-secondary">Retour</a>
+</div>
+</body>
+</html>

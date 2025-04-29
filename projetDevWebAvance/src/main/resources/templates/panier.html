@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<script src="/JS/panier.js" ></script>
+
+<body>
+
+<div id="container">
+</div>
+
+<script th:inline="javascript">
+    const dataPanier = /*[[${user.panier}]]*/ '{}';
+    const panier = dataPanier;
+</script>
+
+</body>
+</html>

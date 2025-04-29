@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div class="container mt-5">
+    <form action="/Creation-compte-pro" method="post">
+        <div class="mb-3">
+            <label for="siret" class="form-label">Numéro de siret</label>
+            <input type="text" name="siret" class="form-control" id="siret" placeholder="Entrez votre siret" required>
+        </div>
+
+        <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
+
+        <button type="submit" class="btn btn-primary">Soumettre</button>
+    </form>
+</div>
+</body>
+</html>

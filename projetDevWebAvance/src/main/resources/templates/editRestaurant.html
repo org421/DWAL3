@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div class="container mt-5">
+    <form action="/edit-restaurant" method="post">
+        <div class="mb-3">
+            <label for="name" class="form-label">Nom du restaurant</label>
+            <input type="text" name="name" class="form-control" id="name" th:value="${restaurant.name}" placeholder="" required>
+        </div>
+        <div class="mb-3">
+            <label for="address" class="form-label">Address du restaurant</label>
+            <input type="text" name="address" class="form-control" id="address" th:value="${restaurant.address}" placeholder="" required>
+
+        </div>
+        <div class="mb-3">
+            <label for="city" class="form-label">Ville du restaurant</label>
+            <input type="text" name="city" class="form-control" id="city" th:value="${restaurant.city}" placeholder="" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="latitude" class="form-label">Latitude</label>
+            <input type="text" name="latitude" class="form-control" id="latitude" th:value="${restaurant.latitude}" placeholder="" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="longitude" class="form-label">Longitude</label>
+            <input type="text" name="longitude" class="form-control" id="longitude" th:value="${restaurant.longitude}" placeholder="" required>
+        </div>
+
+        <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
+
+        <button type="submit" class="btn btn-primary">Enregistrer</button>
+    </form>
+    <hr>
+    <div class="mt-3" style="position: relative" th:each="table: ${restaurant.tables}">
+        <form action="/edit-table" method="post" style="display: inline;">
+            <input type="hidden" name="id" th:value="${table.id}">
+
+            <label>Nombre de personnes :</label>
+            <input type="number" name="nbPersonne" th:value="${table.nombrePersonnesMax}" class="form-control w-25 d-inline" />
+
+            <label>Nombre de tables :</label>
+            <input type="number" name="nbTable" th:value="${table.nombreTables}" class="form-control w-25 d-inline" />
+
+            <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
+
+            <button type="submit" class="btn d-inline">💾</button>
+        </form>
+
+        <form action="/delete-table" method="post" style="display: inline;">
+            <input type="hidden" name="id" th:value="${table.id}">
+            <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
+            <button type="submit" class="btn d-inline">🗑️</button>
+        </form>
+    </div>
+
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+        Nouvelle table
+    </button>
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Créer des nouvelles tables</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="/add-table" method="post" style="display: inline;">
+                        <label>Nombre de personnes :</label>
+                        <input type="number" name="nbPersonne" class="form-control w-25 d-inline" />
+                        <br>
+                        <label>Nombre de tables :</label>
+                        <input type="number" name="nbTable" class="form-control w-25 d-inline" />
+
+                        <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
+                        <br>
+                        <button type="submit" class="btn btn-primary">Créer</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#horaireModifier">
+        Modifier les horaires
+    </button>
+
+    <div class="modal fade" id="horaireModifier" tabindex="-1" aria-labelledby="horaireModifierLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="horaireModifierLabel">Modifier les horaires</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="/saveHoraire" method="post">
+                        <table class="table table-bordered text-center">
+                            <thead>
+                            <tr>
+                                <th>Jour</th>
+                                <th>Ouvert</th>
+                                <th>Service 1 - Début</th>
+                                <th>Service 1 - Fin</th>
+                                <th>Service 2 - Début</th>
+                                <th>Service 2 - Fin</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>Lundi</td>
+                                <td><input type="checkbox" th:checked="${restaurant.horaire.lundi}" name="lundi_open"></td>
+                                <td>
+                                    <div class="input-group">
+                                        <input type="number" class="form-control" name="lundi_service1_start_hour"
+                                               th:value="${restaurant.horaire.horaireOuvertureLundi1 != null ? #numbers.formatDecimal(restaurant.horaire.horaireOuvertureLundi1.hour,2,'0')  : ''}"
+                                               min="0" max="23" placeholder="HH">
+
+                                        <span class="input-group-text">:</span>
+                                        <input type="number" class="form-control" name="lundi_service1_start_minute"
+                                               th:value="${restaurant.horaire.horaireOuvertureLundi1 != null ? #numbers.formatDecimal(restaurant.horaire.horaireOuvertureLundi1.minute,2,'0') : ''}"
+                                               min="0" max="59" placeholder="MM">
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="input-group">
+                                        <input type="number" class="form-control" name="lundi_service1_end_hour"
+                                               th:value="${restaurant.horaire.horaireFermetureLundi1 != null ? #numbers.formatDecimal(restaurant.horaire.horaireFermetureLundi1.hour,2,'0')  : ''}"
+                                               min="0" max="23" placeholder="HH">
+                                        <span class="input-group-text">:</span>
+                                        <input type="number" class="form-control" name="lundi_service1_end_minute"
+                                               th:value="${restaurant.horaire.horaireFermetureLundi1 != null ? #numbers.formatDecimal(restaurant.horaire.horaireFermetureLundi1.minute,2,'0') : ''}"
+                                               min="0" max="59" placeholder="MM">
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="input-group">
+                                        <input type="number" class="form-control" name="lundi_service2_start_hour"
+                                               th:value="${restaurant.horaire.horaireOuvertureLundi2 != null ? #numbers.formatDecimal(restaurant.horaire.horaireOuvertureLundi2.hour,2,'0')  : ''}"
+                                               min="0" max="23" placeholder="HH">
+                                        <span class="input-group-text">:</span>
+                                        <input type="number" class="form-control" name="lundi_service2_start_minute"
+                                               th:value="${restaurant.horaire.horaireOuvertureLundi2 != null ? #numbers.formatDecimal(restaurant.horaire.horaireOuvertureLundi2.minute,2,'0') : ''}"
+                                               min="0" max="59" placeholder="MM">
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="input-group">
+                                        <input type="number" class="form-control" name="lundi_service2_end_hour"
+                                               th:value="${restaurant.horaire.horaireFermetureLundi2 != null ? #numbers.formatDecimal(restaurant.horaire.horaireFermetureLundi2.hour,2,'0')  : ''}"
+                                               min="0" max="23" placeholder="HH">
+                                        <span class="input-group-text">:</span>
+                                        <input type="number" class="form-control" name="lundi_service2_end_minute"
+                                               th:value="${restaurant.horaire.horaireFermetureLundi2 != null ? #numbers.formatDecimal(restaurant.horaire.horaireFermetureLundi2.minute,2,'0') : ''}"
+                                               min="0" max="59" placeholder="MM">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Mardi</td>
+                                <td><input type="checkbox" th:checked="${restaurant.horaire.mardi}" name="mardi_open"></td>
+                                <td>
+                                    <div class="input-group">
+                                        <input type="number" class="form-control" name="mardi_service1_start_hour"
+                                               th:value="${restaurant.horaire.horaireOuvertureMardi1 != null ? #numbers.formatDecimal(restaurant.horaire.horaireOuvertureMardi1.hour,2,'0')  : ''}"
+                                               min="0" max="23" placeholder="HH">
+                                        <span class="input-group-text">:</span>
+                                        <input type="number" class="form-control" name="mardi_service1_start_minute"
+                                               th:value="${restaurant.horaire.horaireOuvertureMardi1 != null ? #numbers.formatDecimal(restaurant.horaire.horaireOuvertureMardi1.minute,2,'0') : ''}"
+                                               min="0" max="59" placeholder="MM">
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="input-group">
+                                        <input type="number" class="form-control" name="mardi_service1_end_hour"
+                                               th:value="${restaurant.horaire.horaireFermetureMardi1 != null ? #numbers.formatDecimal(restaurant.horaire.horaireFermetureMardi1.hour,2,'0')  : ''}"
+                                               min="0" max="23" placeholder="HH">
+                                        <span class="input-group-text">:</span>
+                                        <input type="number" class="form-control" name="mardi_service1_end_minute"
+                                               th:value="${restaurant.horaire.horaireFermetureMardi1 != null ? #numbers.formatDecimal(restaurant.horaire.horaireFermetureMardi1.minute,2,'0') : ''}"
+                                               min="0" max="59" placeholder="MM">
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="input-group">
+                                        <input type="number" class="form-control" name="mardi_service2_start_hour"
+                                               th:value="${restaurant.horaire.horaireOuvertureMardi2 != null ? #numbers.formatDecimal(restaurant.horaire.horaireOuvertureMardi2.hour,2,'0')  : ''}"
+                                               min="0" max="23" placeholder="HH">
+                                        <span class="input-group-text">:</span>
+                                        <input type="number" class="form-control" name="mardi_service2_start_minute"
+                                               th:value="${restaurant.horaire.horaireOuvertureMardi2 != null ? #numbers.formatDecimal(restaurant.horaire.horaireOuvertureMardi2.minute,2,'0') : ''}"
+                                               min="0" max="59" placeholder="MM">
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="input-group">
+                                        <input type="number" class="form-control" name="mardi_service2_end_hour"
+                                               th:value="${restaurant.horaire.horaireFermetureMardi2 != null ? #numbers.formatDecimal(restaurant.horaire.horaireFermetureMardi2.hour,2,'0')  : ''}"
+                                               min="0" max="23" placeholder="HH">
+                                        <span class="input-group-text">:</span>
+                                        <input type="number" class="form-control" name="mardi_service2_end_minute"
+                                               th:value="${restaurant.horaire.horaireFermetureMardi2 != null ? #numbers.formatDecimal(restaurant.horaire.horaireFermetureMardi2.minute,2,'0') : ''}"
+                                               min="0" max="59" placeholder="MM">
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>Mercredi</td>
+                                <td><input type="checkbox" th:checked="${restaurant.horaire.mercredi}" name="mercredi_open"></td>
+                                <td>
+                                    <div class="input-group">
+                                        <input type="number" class="form-control" name="mercredi_service1_start_hour"
+                                               th:value="${restaurant.horaire.horaireOuvertureMercredi1 != null ? #numbers.formatDecimal(restaurant.horaire.horaireOuvertureMercredi1.hour,2,'0')  : ''}"
+                                               min="0" max="23" placeholder="HH">
+                                        <span class="input-group-text">:</span>
+                                        <input type="number" class="form-control" name="mercredi_service1_start_minute"
+                                               th:value="${restaurant.horaire.horaireOuvertureMercredi1 != null ? #numbers.formatDecimal(restaurant.horaire.horaireOuvertureMercredi1.minute,2,'0') : ''}"
+                                               min="0" max="59" placeholder="MM">
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="input-group">
+                                        <input type="number" class="form-control" name="mercredi_service1_end_hour"
+                                               th:value="${restaurant.horaire.horaireFermetureMercredi1 != null ? #numbers.formatDecimal(restaurant.horaire.horaireFermetureMercredi1.hour,2,'0')  : ''}"
+                                               min="0" max="23" placeholder="HH">
+                                        <span class="input-group-text">:</span>
+                                        <input type="number" class="form-control" name="mercredi_service1_end_minute"
+                                               th:value="${restaurant.horaire.horaireFermetureMercredi1 != null ? #numbers.formatDecimal(restaurant.horaire.horaireFermetureMercredi1.minute,2,'0') : ''}"
+                                               min="0" max="59" placeholder="MM">
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="input-group">
+                                        <input type="number" class="form-control" name="mercredi_service2_start_hour"
+                                               th:value="${restaurant.horaire.horaireOuvertureMercredi2 != null ? #numbers.formatDecimal(restaurant.horaire.horaireOuvertureMercredi2.hour,2,'0')  : ''}"
+                                               min="0" max="23" placeholder="HH">
+                                        <span class="input-group-text">:</span>
+                                        <input type="number" class="form-control" name="mercredi_service2_start_minute"
+                                               th:value="${restaurant.horaire.horaireOuvertureMercredi2 != null ? #numbers.formatDecimal(restaurant.horaire.horaireOuvertureMercredi2.minute,2,'0') : ''}"
+                                               min="0" max="59" placeholder="MM">
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="input-group">
+                                        <input type="number" class="form-control" name="mercredi_service2_end_hour"
+                                               th:value="${restaurant.horaire.horaireFermetureMercredi2 != null ? #numbers.formatDecimal(restaurant.horaire.horaireFermetureMercredi2.hour,2,'0')  : ''}"
+                                               min="0" max="23" placeholder="HH">
+                                        <span class="input-group-text">:</span>
+                                        <input type="number" class="form-control" name="mercredi_service2_end_minute"
+                                               th:value="${restaurant.horaire.horaireFermetureMercredi2 != null ? #numbers.formatDecimal(restaurant.horaire.horaireFermetureMercredi2.minute,2,'0') : ''}"
+                                               min="0" max="59" placeholder="MM">
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>Jeudi</td>
+                                <td><input type="checkbox" th:checked="${restaurant.horaire.jeudi}" name="jeudi_open"></td>
+                                <td>
+                                    <div class="input-group">
+                                        <input type="number" class="form-control" name="jeudi_service1_start_hour"
+                                               th:value="${restaurant.horaire.horaireOuvertureJeudi1 != null ? #numbers.formatDecimal(restaurant.horaire.horaireOuvertureJeudi1.hour,2,'0')  : ''}"
+                                               min="0" max="23" placeholder="HH">
+                                        <span class="input-group-text">:</span>
+                                        <input type="number" class="form-control" name="jeudi_service1_start_minute"
+                                               th:value="${restaurant.horaire.horaireOuvertureJeudi1 != null ? #numbers.formatDecimal(restaurant.horaire.horaireOuvertureJeudi1.minute,2,'0') : ''}"
+                                               min="0" max="59" placeholder="MM">
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="input-group">
+                                        <input type="number" class="form-control" name="jeudi_service1_end_hour"
+                                               th:value="${restaurant.horaire.horaireFermetureJeudi1 != null ? #numbers.formatDecimal(restaurant.horaire.horaireFermetureJeudi1.hour,2,'0')  : ''}"
+                                               min="0" max="23" placeholder="HH">
+                                        <span class="input-group-text">:</span>
+                                        <input type="number" class="form-control" name="jeudi_service1_end_minute"
+                                               th:value="${restaurant.horaire.horaireFermetureJeudi1 != null ? #numbers.formatDecimal(restaurant.horaire.horaireFermetureJeudi1.minute,2,'0') : ''}"
+                                               min="0" max="59" placeholder="MM">
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="input-group">
+                                        <input type="number" class="form-control" name="jeudi_service2_start_hour"
+                                               th:value="${restaurant.horaire.horaireOuvertureJeudi2 != null ? #numbers.formatDecimal(restaurant.horaire.horaireOuvertureJeudi2.hour,2,'0')  : ''}"
+                                               min="0" max="23" placeholder="HH">
+                                        <span class="input-group-text">:</span>
+                                        <input type="number" class="form-control" name="jeudi_service2_start_minute"
+                                               th:value="${restaurant.horaire.horaireOuvertureJeudi2 != null ? #numbers.formatDecimal(restaurant.horaire.horaireOuvertureJeudi2.minute,2,'0') : ''}"
+                                               min="0" max="59" placeholder="MM">
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="input-group">
+                                        <input type="number" class="form-control" name="jeudi_service2_end_hour"
+                                               th:value="${restaurant.horaire.horaireFermetureJeudi2 != null ? #numbers.formatDecimal(restaurant.horaire.horaireFermetureJeudi2.hour,2,'0')  : ''}"
+                                               min="0" max="23" placeholder="HH">
+                                        <span class="input-group-text">:</span>
+                                        <input type="number" class="form-control" name="jeudi_service2_end_minute"
+                                               th:value="${restaurant.horaire.horaireFermetureJeudi2 != null ? #numbers.formatDecimal(restaurant.horaire.horaireFermetureJeudi2.minute,2,'0') : ''}"
+                                               min="0" max="59" placeholder="MM">
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>Vendredi</td>
+                                <td><input type="checkbox" th:checked="${restaurant.horaire.vendredi}" name="vendredi_open"></td>
+                                <td>
+                                    <div class="input-group">
+                                        <input type="number" class="form-control" name="vendredi_service1_start_hour"
+                                               th:value="${restaurant.horaire.horaireOuvertureVendredi1 != null ? #numbers.formatDecimal(restaurant.horaire.horaireOuvertureVendredi1.hour,2,'0')  : ''}"
+                                               min="0" max="23" placeholder="HH">
+                                        <span class="input-group-text">:</span>
+                                        <input type="number" class="form-control" name="vendredi_service1_start_minute"
+                                               th:value="${restaurant.horaire.horaireOuvertureVendredi1 != null ? #numbers.formatDecimal(restaurant.horaire.horaireOuvertureVendredi1.minute,2,'0') : ''}"
+                                               min="0" max="59" placeholder="MM">
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="input-group">
+                                        <input type="number" class="form-control" name="vendredi_service1_end_hour"
+                                               th:value="${restaurant.horaire.horaireFermetureVendredi1 != null ? #numbers.formatDecimal(restaurant.horaire.horaireFermetureVendredi1.hour,2,'0')  : ''}"
+                                               min="0" max="23" placeholder="HH">
+                                        <span class="input-group-text">:</span>
+                                        <input type="number" class="form-control" name="vendredi_service1_end_minute"
+                                               th:value="${restaurant.horaire.horaireFermetureVendredi1 != null ? #numbers.formatDecimal(restaurant.horaire.horaireFermetureVendredi1.minute,2,'0') : ''}"
+                                               min="0" max="59" placeholder="MM">
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="input-group">
+                                        <input type="number" class="form-control" name="vendredi_service2_start_hour"
+                                               th:value="${restaurant.horaire.horaireOuvertureVendredi2 != null ? #numbers.formatDecimal(restaurant.horaire.horaireOuvertureVendredi2.hour,2,'0')  : ''}"
+                                               min="0" max="23" placeholder="HH">
+                                        <span class="input-group-text">:</span>
+                                        <input type="number" class="form-control" name="vendredi_service2_start_minute"
+                                               th:value="${restaurant.horaire.horaireOuvertureVendredi2 != null ? #numbers.formatDecimal(restaurant.horaire.horaireOuvertureVendredi2.minute,2,'0') : ''}"
+                                               min="0" max="59" placeholder="MM">
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="input-group">
+                                        <input type="number" class="form-control" name="vendredi_service2_end_hour"
+                                               th:value="${restaurant.horaire.horaireFermetureVendredi2 != null ? #numbers.formatDecimal(restaurant.horaire.horaireFermetureVendredi2.hour,2,'0')  : ''}"
+                                               min="0" max="23" placeholder="HH">
+                                        <span class="input-group-text">:</span>
+                                        <input type="number" class="form-control" name="vendredi_service2_end_minute"
+                                               th:value="${restaurant.horaire.horaireFermetureVendredi2 != null ? #numbers.formatDecimal(restaurant.horaire.horaireFermetureVendredi2.minute,2,'0') : ''}"
+                                               min="0" max="59" placeholder="MM">
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>Samedi</td>
+                                <td><input type="checkbox" th:checked="${restaurant.horaire.samedi}" name="samedi_open"></td>
+                                <td>
+                                    <div class="input-group">
+                                        <input type="number" class="form-control" name="samedi_service1_start_hour"
+                                               th:value="${restaurant.horaire.horaireOuvertureSamedi1 != null ? #numbers.formatDecimal(restaurant.horaire.horaireOuvertureSamedi1.hour,2,'0')  : ''}"
+                                               min="0" max="23" placeholder="HH">
+                                        <span class="input-group-text">:</span>
+                                        <input type="number" class="form-control" name="samedi_service1_start_minute"
+                                               th:value="${restaurant.horaire.horaireOuvertureSamedi1 != null ? #numbers.formatDecimal(restaurant.horaire.horaireOuvertureSamedi1.minute,2,'0') : ''}"
+                                               min="0" max="59" placeholder="MM">
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="input-group">
+                                        <input type="number" class="form-control" name="samedi_service1_end_hour"
+                                               th:value="${restaurant.horaire.horaireFermetureSamedi1 != null ? #numbers.formatDecimal(restaurant.horaire.horaireFermetureSamedi1.hour,2,'0')  : ''}"
+                                               min="0" max="23" placeholder="HH">
+                                        <span class="input-group-text">:</span>
+                                        <input type="number" class="form-control" name="samedi_service1_end_minute"
+                                               th:value="${restaurant.horaire.horaireFermetureSamedi1 != null ? #numbers.formatDecimal(restaurant.horaire.horaireFermetureSamedi1.minute,2,'0') : ''}"
+                                               min="0" max="59" placeholder="MM">
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="input-group">
+                                        <input type="number" class="form-control" name="samedi_service2_start_hour"
+                                               th:value="${restaurant.horaire.horaireOuvertureSamedi2 != null ? #numbers.formatDecimal(restaurant.horaire.horaireOuvertureSamedi2.hour,2,'0')  : ''}"
+                                               min="0" max="23" placeholder="HH">
+                                        <span class="input-group-text">:</span>
+                                        <input type="number" class="form-control" name="samedi_service2_start_minute"
+                                               th:value="${restaurant.horaire.horaireOuvertureSamedi2 != null ? #numbers.formatDecimal(restaurant.horaire.horaireOuvertureSamedi2.minute,2,'0') : ''}"
+                                               min="0" max="59" placeholder="MM">
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="input-group">
+                                        <input type="number" class="form-control" name="samedi_service2_end_hour"
+                                               th:value="${restaurant.horaire.horaireFermetureSamedi2 != null ? #numbers.formatDecimal(restaurant.horaire.horaireFermetureSamedi2.hour,2,'0')  : ''}"
+                                               min="0" max="23" placeholder="HH">
+                                        <span class="input-group-text">:</span>
+                                        <input type="number" class="form-control" name="samedi_service2_end_minute"
+                                               th:value="${restaurant.horaire.horaireFermetureSamedi2 != null ? #numbers.formatDecimal(restaurant.horaire.horaireFermetureSamedi2.minute,2,'0') : ''}"
+                                               min="0" max="59" placeholder="MM">
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>Dimanche</td>
+                                <td><input type="checkbox" th:checked="${restaurant.horaire.dimanche}" name="dimanche_open"></td>
+                                <td>
+                                    <div class="input-group">
+                                        <input type="number" class="form-control" name="dimanche_service1_start_hour"
+                                               th:value="${restaurant.horaire.horaireOuvertureDimanche1 != null ? #numbers.formatDecimal(restaurant.horaire.horaireOuvertureDimanche1.hour,2,'0')  : ''}"
+                                               min="0" max="23" placeholder="HH">
+                                        <span class="input-group-text">:</span>
+                                        <input type="number" class="form-control" name="dimanche_service1_start_minute"
+                                               th:value="${restaurant.horaire.horaireOuvertureDimanche1 != null ? #numbers.formatDecimal(restaurant.horaire.horaireOuvertureDimanche1.minute,2,'0') : ''}"
+                                               min="0" max="59" placeholder="MM">
+                                    </div>
+                                </td>
+                                <td>
+                                        <div class="input-group">
+                                            <input type="number" class="form-control" name="dimanche_service1_end_hour"
+                                                   th:value="${restaurant.horaire.horaireFermetureDimanche1 != null ? #numbers.formatDecimal(restaurant.horaire.horaireFermetureDimanche1.hour,2,'0')  : ''}"
+                                                   min="0" max="23" placeholder="HH">
+                                            <span class="input-group-text">:</span>
+                                            <input type="number" class="form-control" name="dimanche_service1_end_minute"
+                                                   th:value="${restaurant.horaire.horaireFermetureDimanche1 != null ? #numbers.formatDecimal(restaurant.horaire.horaireFermetureDimanche1.minute,2,'0') : ''}"
+                                                   min="0" max="59" placeholder="MM">
+                                        </div>
+                                    </td>
+                                <td>
+                                    <div class="input-group">
+                                        <input type="number" class="form-control" name="dimanche_service2_start_hour"
+                                               th:value="${restaurant.horaire.horaireOuvertureDimanche2 != null ? #numbers.formatDecimal(restaurant.horaire.horaireOuvertureDimanche2.hour,2,'0')  : ''}"
+                                               min="0" max="23" placeholder="HH">
+                                        <span class="input-group-text">:</span>
+                                        <input type="number" class="form-control" name="dimanche_service2_start_minute"
+                                               th:value="${restaurant.horaire.horaireOuvertureDimanche2 != null ? #numbers.formatDecimal(restaurant.horaire.horaireOuvertureDimanche2.minute,2,'0') : ''}"
+                                               min="0" max="59" placeholder="MM">
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="input-group">
+                                        <input type="number" class="form-control" name="dimanche_service2_end_hour"
+                                               th:value="${restaurant.horaire.horaireFermetureDimanche2 != null ? #numbers.formatDecimal(restaurant.horaire.horaireFermetureDimanche2.hour,2,'0')  : ''}"
+                                               min="0" max="23" placeholder="HH">
+                                        <span class="input-group-text">:</span>
+                                        <input type="number" class="form-control" name="dimanche_service2_end_minute"
+                                               th:value="${restaurant.horaire.horaireFermetureDimanche2 != null ? #numbers.formatDecimal(restaurant.horaire.horaireFermetureDimanche2.minute,2,'0') : ''}"
+                                               min="0" max="59" placeholder="MM">
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                            <button type="submit" class="btn btn-primary">Enregistrer</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <a class="mt-5 btn btn-primary bg-danger" href="/Mon-compte-pro">Retour</a>
+</div>
+</body>
+</html>

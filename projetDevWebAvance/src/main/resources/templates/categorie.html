@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href="/CSS/categorie.css">
+</head>
+<body>
+<div class="container mt-4">
+    <h1 class="text-center mb-4">Gestion des catégories</h1>
+    <div class="alert alert-success" th:if="${successMessage}" role="alert">
+        <span th:text="${successMessage}"></span>
+    </div>
+    <div class="alert alert-success" th:if="${successMessageSuppr}" role="alert">
+        <span th:text="${successMessageSuppr}"></span>
+    </div>
+    <h2>Catégories Éxistantes</h2>
+    <div class="categorie-details">
+        <ul>
+            <li th:each="categorie : ${categories}" class="mb-3">
+                <p>
+                    <strong>Nom de la catégorie :</strong>
+                    <span th:text="${categorie.nom}">Nom de la catégorie</span>
+                </p>
+                <div class="btn-group">
+                    <a th:href="@{/edit-carte/categories/{id}/plats(id=${categorie.id})}" class="btn btn-primary">Voir les plats du restaurant</a>
+                    <a th:href="'/edit-carte/categories/' + ${categorie.id}" class="btn btn-primary">Modifier</a>
+                    <form th:action="@{/suppr-categorie}" method="post" style="display: inline;">
+                        <input hidden="hidden" name="idCategorie" th:value="${categorie.id}">
+                        <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
+                        <button type="submit" class="btn btn-primary">Supprimer</button>
+                    </form>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+    <h2 class="mt-5">Créer une Nouvelle Catégorie</h2>
+    <form action="/edit-carte/add-categories" method="post" class="mt-3">
+        <div class="mb-3">
+            <label for="categorieNom" class="form-label">Nom de la Catégorie :</label>
+            <input type="text" id="categorieNom" name="nom" class="form-control" required>
+        </div>
+
+        <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
+        <div class="d-flex justify-content-between">
+            <button type="submit" class="btn btn-primary">Créer la catégorie</button>
+            <a th:href="@{/edit-carte}" class="btn btn-primary">Retour</a>
+        </div>
+    </form>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,88 @@
+.box {
+    border: 1px solid #ccc;
+    padding: 20px;
+    margin-top: 20px;
+    min-height: 100px;
+}
+h1 {
+    font-family: 'Arial', sans-serif; /* Remplace par une police élégante si nécessaire */
+    font-size: 3rem; /* Taille de la police */
+    color: #2c3e50; /* Couleur du texte */
+    text-align: center; /* Centrer le texte */
+    text-transform: uppercase; /* Mettre en majuscules */
+    letter-spacing: 2px; /* Espacement entre les lettres */
+    margin-bottom: 20px; /* Espacement sous le titre */
+    font-weight: bold; /* Met le texte en gras */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* Ajoute une ombre légère */
+}
+
+/* Optionnel : Ajoute une bordure élégante autour du h1 */
+h1::before, h1::after {
+    content: '';
+    display: block;
+    width: 50px;
+    height: 2px;
+    background-color: #3498db; /* Couleur de la bordure */
+    margin: 10px auto;
+}
+
+
+/* Ajuste l'espacement entre les sections */
+.box select, .box input {
+    width: 200px;
+    margin-right: 20px;
+}
+
+.box button {
+    margin-top: 10px;
+}
+
+
+
+/*menu commander*/
+/* Container des boutons pour centrer */
+.order-options {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px; /* Espacement entre les boutons */
+    margin-top: 20px;
+}
+
+.order-options button {
+    width: 150px;
+    height: 50px;
+    font-size: 1.2rem;
+    background-color: #ffdd00; /* Couleur jaune style borne */
+    color: #2c3e50; /* Couleur du texte */
+    border-radius: 15px; /* Bordures arrondies */
+    border: none;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3); /* Légère ombre */
+    transition: transform 0.2s ease-in-out;
+}
+
+.order-options button:hover {
+    transform: scale(1.05); /* Zoom léger sur hover */
+    background-color: #ff9900; /* Couleur plus vive au survol */
+}
+
+.fc-daygrid-day {
+    background-color: lightcoral;
+    color: red;
+    border: 1px solid red;
+}
+
+.fc-daygrid-day:hover {
+    background-color: lightcoral;
+    cursor: pointer;
+}
+
+.fc-daygrid-day.fc-day-disabled {
+    background-color: lightcoral;
+    color: #a00;
+}
+
+
+
+
+
